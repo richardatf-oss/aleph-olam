@@ -1,10 +1,16 @@
-class AlephOlamSimulator:
+import numpy as np
 
-    def __init__(self):
-        self.state = {}
+from nodes import QuantumNode
 
-    def initialize(self):
-        self.state["initialized"] = True
 
-    def run(self):
-        return self.state
+def hadamard(node: QuantumNode) -> None:
+    h = (1 / np.sqrt(2)) * np.array(
+        [
+            [1, 1],
+            [1, -1],
+        ],
+        dtype=complex,
+    )
+
+    node.state = h @ node.state
+    node.normalize()
