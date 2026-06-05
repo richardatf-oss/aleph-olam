@@ -4,31 +4,31 @@
   <meta charset="utf-8" />
   <title>Aleph Olam</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
     body {
       margin: 0;
       min-height: 100vh;
-      display: grid;
-      place-items: center;
       background: radial-gradient(circle at top, #172a3a, #05070a);
       color: #f4efe2;
       font-family: system-ui, sans-serif;
     }
 
     main {
-      max-width: 760px;
-      padding: 3rem;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 12vh 2rem 4rem;
       text-align: center;
     }
 
     h1 {
-      font-size: 4rem;
+      font-size: clamp(3rem, 8vw, 5rem);
       margin-bottom: 0.5rem;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
     }
 
     .hebrew {
-      font-size: 3rem;
+      font-size: clamp(2.5rem, 7vw, 4rem);
       direction: rtl;
       margin: 1rem 0;
       color: #d8c690;
@@ -39,23 +39,124 @@
       color: #d6d0c4;
     }
 
-    code {
-      color: #90e0ef;
+    .panel {
+      margin: 3rem auto 0;
+      max-width: 620px;
+      padding: 1.5rem;
+      border: 1px solid rgba(216, 198, 144, 0.28);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.22);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.75rem;
+      color: #d8c690;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(216, 198, 144, 0.35);
+      background: rgba(0, 0, 0, 0.28);
+      color: #f4efe2;
+      font-size: 1.2rem;
+      text-align: center;
+      direction: rtl;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.9rem 1.25rem;
+      border: 0;
+      border-radius: 12px;
+      background: #d8c690;
+      color: #071018;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #f0ddb0;
+    }
+
+    .result {
+      margin-top: 1.25rem;
+      padding: 1rem;
+      border-radius: 14px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .result strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: #fff;
+    }
+
+    .result.public {
+      border: 1px solid rgba(144, 224, 239, 0.45);
+    }
+
+    .result.secret {
+      border: 1px solid rgba(216, 198, 144, 0.75);
+    }
+
+    .result.sealed {
+      border: 1px solid rgba(255, 120, 120, 0.45);
+    }
+
+    .small {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #aaa397;
     }
   </style>
 </head>
+
 <body>
   <main>
     <h1>Aleph Olam</h1>
-   <div class="hebrew">אלף עולם</div>
+
+    <div class="hebrew">אלף עולם</div>
+
     <p>
       A symbolic quantum simulator architecture inspired by Hebrew letters,
       Sephirot nodes, transformation paths, niqqud modifiers, and protected
       hidden-register semantics.
     </p>
+
     <p>
       Python simulator source lives in this repository. The public web gate is open.
     </p>
+
+    <section class="panel">
+      <form id="aleph-form">
+        <label for="aleph-input">Public Aleph Olam Invocation</label>
+
+        <input
+          id="aleph-input"
+          name="phrase"
+          autocomplete="off"
+          placeholder="Type the public phrase"
+        />
+
+        <button type="submit">Open Gate</button>
+      </form>
+
+      <div id="aleph-result" class="result" hidden></div>
+
+      <p class="small">
+        Public mode can inspect and simulate safely. It cannot change code,
+        secrets, environment variables, or protected registers.
+      </p>
+    </section>
   </main>
+
+  <script src="/app.js"></script>
 </body>
 </html>
