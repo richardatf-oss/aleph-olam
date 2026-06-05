@@ -1,23 +1,33 @@
-from parser import tokenize, parse
+from parser import parse_program, ALEPH_OLAM_SECRET
 
 
-def test_single_hebrew_letter():
-    tokens = tokenize("א")
+def test_parse_known_gate_aleph():
+    program = parse_program("א")
 
-    assert len(tokens) == 1
-    assert tokens[0].base == "א"
-    assert tokens[0].category == "hebrew_instruction"
-
-
-def test_hebrew_letter_with_niqqud():
-    tokens = tokenize("אָ")
-
-    assert len(tokens) == 1
-    assert tokens[0].base == "א"
-    assert len(tokens[0].marks) == 1
+    assert len(program.instructions) == 1
+    assert program.instructions[0].base == "א"
+    assert program.instructions[0].known_gate is True
 
 
-def test_multiple_letters():
-    tokens = parse("א ב ג")
+def test_parse_known_gate_chet():
+    program = parse_program("ח")
 
-    assert [token.base for token in tokens] == ["א", "ב", "ג"]
+    assert len(program.instructions) == 1
+    assert program.instructions[0].base == "ח"
+    assert program.instructions[0].known_gate is True
+
+
+def test_niqqud_attaches_to_base_letter():
+    program = parse_program("אָ")
+
+    assert len(program.instructions) == 1
+    assert program.instructions[0].base == "א"
+    assert len(program.instructions[0].niqqud) >= 1
+
+
+def test_aleph_olam_secret_unlocks_only_exact_sequence():
+    locked = parse_program("אלף עולם")
+    unlocked = parse_program(ALEPH_OLAM_SECRET)
+
+    assert locked.aleph_olam_unlocked is False
+    assert unlocked.aleph_olam_unlocked is True
